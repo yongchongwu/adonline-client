@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.ifuture.adonline;
+
+// 广告数据服务
+service AdvertisingService {
+  rpc getAdvertisement(AdvRequest) returns (AdvResponse) {}
+} 
+
+message AdvRequest {
+  string maid = 1; // 用户ID
+}
+
+message AdvResponse {
+  string adid = 1; // 广告ID
+}
