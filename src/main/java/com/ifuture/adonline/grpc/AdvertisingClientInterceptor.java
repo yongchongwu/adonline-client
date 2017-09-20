@@ -15,7 +15,7 @@ public class AdvertisingClientInterceptor implements ClientInterceptor {
 
   private final Logger logger = LoggerFactory.getLogger(AdvertisingClientInterceptor.class);
 
-  private Metadata.Key<String> token = Metadata.Key.of("token", Metadata.ASCII_STRING_MARSHALLER);
+  private final Metadata.Key<String> token = Metadata.Key.of("access_token", Metadata.ASCII_STRING_MARSHALLER);
 
   @Override
   public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(
