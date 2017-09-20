@@ -26,7 +26,7 @@ public class AdvertisingServiceClient {
         AdvRequest request = AdvRequest.newBuilder().setMaid(maid).build();
         AdvResponse response = stub.getAdvertisement(request);
         System.out.println("返回广告内容:" + response.getAdid());
-        Thread.sleep(1000);
+        Thread.sleep(5000);
       }
     } finally {
       mChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
