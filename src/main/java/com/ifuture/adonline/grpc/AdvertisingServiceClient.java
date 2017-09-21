@@ -15,21 +15,32 @@ public class AdvertisingServiceClient {
 
   public static void main(String[] args) throws InterruptedException {
     SpringApplication.run(AdvertisingServiceClient.class, args);
-    ManagedChannel mChannel = ManagedChannelBuilder.forAddress("localhost", 6565).usePlaintext(true)
-        .build();
+    //ManagedChannel mChannel = ManagedChannelBuilder.forAddress("localhost", 6565).usePlaintext(true).build();
+    ManagedChannel mChannel = ManagedChannelBuilder.forAddress("192.168.220.5", 6565)
+        .usePlaintext(true).build();
+
     AdvertisingServiceGrpc.AdvertisingServiceBlockingStub stub = AdvertisingServiceGrpc
         .newBlockingStub(
             ClientInterceptors.intercept(mChannel, new AdvertisingClientInterceptor()));
+
     try {
-      for (int i = 0; i < 10; i++) {
+      final long startTime = System.nanoTime();
+
+      for (int i = 0; i < 1000; i++) {
         String maid = "" + (i + 1);
         AdvRequest request = AdvRequest.newBuilder().setMaid(maid).build();
         AdvResponse response = stub.getAdvertisement(request);
         System.out.println("返回广告内容:" + response.getAdid());
-        Thread.sleep(5000);
+        //Thread.sleep(5000);
       }
+
+      final long endTime = System.nanoTime();
+
+      System.out.println("time consuming : " + (endTime - startTime) / 1000000L + "ms");
+
     } finally {
       mChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
+
   }
 }
