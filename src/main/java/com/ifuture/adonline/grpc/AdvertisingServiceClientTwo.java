@@ -1,8 +1,5 @@
 package com.ifuture.adonline.grpc;
 
-import com.ifuture.adonline.AdvertisingServiceGrpc;
-import com.ifuture.adonline.Ifuture.AdvRequest;
-import com.ifuture.adonline.Ifuture.AdvResponse;
 import io.grpc.ClientInterceptors;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -18,15 +15,22 @@ public class AdvertisingServiceClientTwo {
 
     final long startTime = System.nanoTime();
 
-    for (int i = 0; i < 10000; i++) {
-      ManagedChannel mChannel = ManagedChannelBuilder.forAddress("192.168.220.5", 6565)
+    for (int i = 0; i < 10; i++) {
+      ManagedChannel mChannel = ManagedChannelBuilder.forAddress("localhost", 6565)
           .usePlaintext(true).build();
       AdvertisingServiceGrpc.AdvertisingServiceBlockingStub stub = AdvertisingServiceGrpc
           .newBlockingStub(
               ClientInterceptors.intercept(mChannel, new AdvertisingClientInterceptor()));
       try {
-        String maid = "" + (i + 1);
-        AdvRequest request = AdvRequest.newBuilder().setMaid(maid).build();
+        AdvRequest.Builder builder = AdvRequest.newBuilder();
+        builder.setMaid("" + (i + 1));// 用户ID
+        builder.setBussinessId("2");// 商家ID
+        builder.setUa("3");// User-Agent的信息
+        builder.setIp("4");// 交易时的IP
+        builder.setPayMethond("5");// 交易的付账方式
+        builder.setPay(6);// 交易金额，单位为分
+        builder.setNetworkId("7");// 用户的网络
+        AdvRequest request = builder.build();
         AdvResponse response = stub.getAdvertisement(request);
         System.out.println("返回广告内容:" + response.getAdid());
       } finally {
