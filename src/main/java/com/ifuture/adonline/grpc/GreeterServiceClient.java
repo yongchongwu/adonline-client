@@ -16,7 +16,7 @@ public class GreeterServiceClient {
     GreeterServiceGrpc.GreeterServiceBlockingStub stub = GreeterServiceGrpc
         .newBlockingStub(mChannel);
     try {
-      for (int i = 0; i < 1000; i++) {
+      for (int i = 0; i < 10; i++) {
         HelloRequest request = HelloRequest.newBuilder().setName("Jack"+(i+1)).build();
         HelloReply reply = stub.sayHello(request);
         System.out.println(reply.getMessage());
