@@ -16,7 +16,7 @@ public class AdvertisingServiceClient {
   public static void main(String[] args) throws InterruptedException {
     SpringApplication.run(AdvertisingServiceClient.class, args);
 
-    ManagedChannel mChannel = ManagedChannelBuilder.forAddress("localhost", 6565)
+    ManagedChannel mChannel = ManagedChannelBuilder.forAddress("47.52.114.183", 6565)
         .usePlaintext(true).build();
 
     AdvertisingServiceGrpc.AdvertisingServiceBlockingStub stub = AdvertisingServiceGrpc
