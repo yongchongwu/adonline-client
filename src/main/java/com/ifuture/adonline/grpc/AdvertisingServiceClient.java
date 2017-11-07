@@ -13,7 +13,7 @@ public class AdvertisingServiceClient {
 
   public void test() throws InterruptedException {
 
-    ManagedChannel mChannel = ManagedChannelBuilder.forAddress("localhost", 6565)
+    ManagedChannel mChannel = ManagedChannelBuilder.forAddress("lehui-demo-cdh001", 6565)
         .usePlaintext(true).build();
 
     AdvertisingServiceGrpc.AdvertisingServiceBlockingStub stub = AdvertisingServiceGrpc
@@ -27,7 +27,7 @@ public class AdvertisingServiceClient {
     builder.setIp("4");// 交易时的IP
     builder.setPayMethond("5");// 交易的付账方式
     builder.setPay(6);// 交易金额，单位为分
-    builder.setNetworkId("3g");// 用户的网络
+    builder.setNetworkId("");// 用户的网络
     AdvRequest request = builder.build();
 
     try {

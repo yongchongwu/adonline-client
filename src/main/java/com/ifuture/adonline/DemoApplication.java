@@ -13,8 +13,9 @@ public class DemoApplication {
     AdvertisingServiceClient client = new AdvertisingServiceClient();
 
     for (int i=0;i<10;i++) {
-      client.test();
+
     }
+    client.test();
 
   }
 }
