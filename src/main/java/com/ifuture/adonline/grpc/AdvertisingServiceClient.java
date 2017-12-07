@@ -7,13 +7,15 @@ import fpay.bills.Ifuture.AdvResponse;
 import io.grpc.ClientInterceptors;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class AdvertisingServiceClient {
 
   public void test() throws InterruptedException {
 
-    ManagedChannel mChannel = ManagedChannelBuilder.forAddress("lehui-demo-cdh001", 6565)
+    ManagedChannel mChannel = ManagedChannelBuilder.forAddress("localhost", 6565)
         .usePlaintext(true).build();
 
     AdvertisingServiceGrpc.AdvertisingServiceBlockingStub stub = AdvertisingServiceGrpc
@@ -21,13 +23,13 @@ public class AdvertisingServiceClient {
             ClientInterceptors.intercept(mChannel, new AdvertisingClientInterceptor()));
 
     AdvRequest.Builder builder = AdvRequest.newBuilder();
-    builder.setMaid("1");// 用户ID
+    builder.setMaid(getRandomVal(new String[]{"0003g","00052","00062","0007E","0009g","000Bj","000D1","000Eq","000NK","000R6","000Wn","000Xk","000bj","000dq"}));// 用户ID
     builder.setBussinessId("2");// 商家ID
-    builder.setUa("ios");// User-Agent的信息
-    builder.setIp("4");// 交易时的IP
-    builder.setPayMethond("5");// 交易的付账方式
-    builder.setPay(6);// 交易金额，单位为分
-    builder.setNetworkId("");// 用户的网络
+    builder.setUa(getRandomVal(new String[]{"Android","iOS"}));// User-Agent的信息
+    builder.setIp("127.0.0.1");// 交易时的IP
+    builder.setPayMethond("4JBo");// 交易的付账方式
+    builder.setPay(0);// 交易金额，单位为分
+    builder.setNetworkId(getRandomVal(new String[]{"4g","3g","wifi"}));// 用户的网络
     AdvRequest request = builder.build();
 
     try {
@@ -41,4 +43,27 @@ public class AdvertisingServiceClient {
       mChannel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
   }
+
+  public String getRandomVal(String[] arr){
+    int index = (int) (Math.random() * arr.length);
+    return arr[index];
+  }
+
+  public static void main(String[] args) {
+    AdvertisingServiceClient client = new AdvertisingServiceClient();
+    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
+    for (int i=0;i<20;i++) {
+      fixedThreadPool.execute(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            client.test();
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      });
+    }
+  }
+
 }

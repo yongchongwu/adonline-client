@@ -1,6 +1,8 @@
 package com.ifuture.adonline;
 
 import com.ifuture.adonline.grpc.AdvertisingServiceClient;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,10 +14,18 @@ public class DemoApplication {
 
     AdvertisingServiceClient client = new AdvertisingServiceClient();
 
-    for (int i=0;i<10;i++) {
-
+    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
+    for (int i=0;i<20;i++) {
+      fixedThreadPool.execute(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            client.test();
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      });
     }
-    client.test();
-
   }
 }
