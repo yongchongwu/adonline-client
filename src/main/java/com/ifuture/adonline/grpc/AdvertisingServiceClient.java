@@ -7,6 +7,7 @@ import fpay.bills.Ifuture.AdvResponse;
 import io.grpc.ClientInterceptors;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -45,14 +46,13 @@ public class AdvertisingServiceClient {
   }
 
   public String getRandomVal(String[] arr){
-    int index = (int) (Math.random() * arr.length);
-    return arr[index];
+    return arr[new Random().nextInt(arr.length)];
   }
 
   public static void main(String[] args) {
     AdvertisingServiceClient client = new AdvertisingServiceClient();
     ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
-    for (int i=0;i<20;i++) {
+    for (int i=0;i<50;i++) {
       fixedThreadPool.execute(new Runnable() {
         @Override
         public void run() {
