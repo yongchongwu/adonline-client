@@ -23,7 +23,7 @@ public class AdvertisingServiceClient {
             ClientInterceptors.intercept(mChannel, new AdvertisingClientInterceptor()));
 
     AdvRequest.Builder builder = AdvRequest.newBuilder();
-    builder.setMaid(getRandomVal(new String[]{"0003g","00052","00062","0007E","0009g","000Bj","000D1","000Eq","000NK","000R6","000Wn","000Xk","000bj","000dq"}));// 用户ID
+    builder.setMaid(getRandomVal(new String[]{"00052","00062","0009g"}));// 用户ID
     builder.setBussinessId("2");// 商家ID
     builder.setUa(getRandomVal(new String[]{"Android","iOS"}));// User-Agent的信息
     builder.setIp("127.0.0.1");// 交易时的IP
